@@ -53,17 +53,23 @@ flowchart TD
             A3[多步推理] -->
             A4[理性决策] -->
             A5[计划行动] --> A1
+            
+            style 高级认知 fill:#e8f5e8
         end
         
         subgraph 中级认知 [模式识别反应]
             B1[感知模式] --> 
             B2[快速匹配] --> 
             B3[习惯反应] --> B1
+            
+            style 中级认知 fill:#fff3e0
         end
         
         subgraph 基础认知 [条件反射]
             C1[刺激感知] --> 
             C2[自动反应] --> C1
+            
+            style 基础认知 fill:#e1f5fe
         end
     end
 
@@ -72,11 +78,6 @@ flowchart TD
 
     C2 -- 学习 --> B1
     B3 -- 学习 --> A1
-
-
     
-    style 认知循环 fill:#e8f5e8
-    style 模式识别 fill:#fff3e0
-    style 条件反射 fill:#e1f5fe
-
 ```
+

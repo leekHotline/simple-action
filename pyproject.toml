@@ -1,0 +1,15 @@
+[project]
+name = "simple-action"
+version = "0.10.0"
+dependencies = [
+    "loguru>=0.7.3",
+    "ollama>=0.6.0",
+    "langchain>=0.3.0",
+    "langchain-ollama>=0.3.0",
+    "httpx>=0.27.0",
+    "mcp>=1.0.0",
+]
+
+# 解决方案：明确指定所有包
+[tool.setuptools]
+packages = ["api", "config", "core", "mcp", "tools"]
