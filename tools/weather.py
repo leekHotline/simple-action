@@ -1,7 +1,7 @@
 import httpx
 from loguru import logger
 
-def get_city_weather(city_name):
+def get_city_weather(city_name) -> str :
     # 第一步：用 Nominatim 获取城市经纬度（Open-Meteo 需要经纬度）
     geo_url = f"https://nominatim.openstreetmap.org/search?city={city_name}&format=json&limit=1"
     geo_resp = httpx.get(geo_url, headers={"User-Agent": "weather_app"})

@@ -3,10 +3,16 @@ from langchain_ollama import ChatOllama
 from langchain_core.tools import tool
 from langchain_core.messages import HumanMessage, AIMessage, ToolMessage
 import json
+import httpx
+from exa_py import Exa
+from dotenv import load_dotenv
+from bs4 import BeautifulSoup
 
 # 工具定义 工具绑定 思考行动观察
 # 让模型知道能调用什么工具  让模型输出结构化的调用指令 思考需要是否需要调用工具调用什么工具 执行工具 观察反馈结果
+load_dotenv()
 
+exa_api_key = os.getenv('EXA_API_KEY')
 os.environ['NO_PROXY'] = '127.0.1,localhost'
 
 # ============ 1. 定义工具 ============
@@ -35,8 +41,26 @@ def get_time(timezone: str = "Asia/Shanghai") -> str:
     return f"当前时间：{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 
 @tool
-def cal_time() -> str:
-    "获取"
+def web_search_api(keyword: str) -> str:
+    "调用网络搜索api 得到结果"
+    exa = Exa(exa_api_key)
+    result = exa.search_and_contents(
+        query= keyword,
+        type= 'auto',
+        text = True
+    )
+    return result
+
+@tool
+def crawer_html(target_url : str) :
+    "输入目标网址 得到网址的html信息 解析去掉html标签获得纯文本"
+    response = httpx.get(target_url)
+    response.raise_for_status()
+    # 确保请求成功 检查状态码
+    soup = BeautifulSoup(response.text,'html.parser')
+    result = soup.get_text()
+    return result
+
 
 # ============ 2. 创建带工具的模型 ============
 llm = ChatOllama(
@@ -45,7 +69,7 @@ llm = ChatOllama(
     base_url='http://127.0.0.1:12345'
 )
 
-tools = [get_weather, calculator, get_time]
+tools = [get_weather, calculator, get_time, web_search_api, crawer_html]
 tool_map = {t.name: t for t in tools}
 
 # 绑定工具到模型
@@ -95,6 +119,8 @@ if __name__ == "__main__":
         "北京今天天气怎么样？",
         "帮我算一下 123 * 456 + 789",
         "现在几点了？",
+        "把我查一下lanchain_core的最新版本是多少呢?",
+        "https://kissfocus.vip 是什么网址?"
     ]
     
     for q in questions:
