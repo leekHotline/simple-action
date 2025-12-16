@@ -81,3 +81,47 @@ flowchart TD
     
 ```
 
+
+```mermaid
+graph TB
+    A["AI Agent需求"] --> B{"需要外部能力"}
+    
+    B --> C["传统API方式"]
+    B --> D["MCP/工具方式"]
+    
+    subgraph C_Group [传统API问题]
+        C1["文档风格各异"]
+        C2["调用方式不同"]
+        C3["参数语义模糊"]
+        C4["人类可读但AI难解析"]
+    end
+    
+    C --> C_Group
+    
+    subgraph D_Group [MCP/工具优势]
+        D1["结构化JSON Schema<br>标准化工具描述"]
+        D2["统一协议通信调用工具"]
+        D3["机器可读描述"]
+        D4["自动发现机制"]
+    end
+    
+    D --> D_Group
+    
+    E["开发者角色"] --> F{"提供工具方式"}
+    F --> G["@tool装饰器<br>本地集成"]
+    F --> H["MCP服务<br>公网开放"]
+    
+    I["最终效果"] --> J["AI Agent可稳定调用<br>标准化工具服务"]
+    
+    D_Group --> J
+    G --> J
+    H --> J
+    
+    %% 样式美化
+    classDef default fill:#f9f9f9,stroke:#333,stroke-width:1px
+    classDef group fill:#e8f4f8,stroke:#3498db,stroke-width:2px
+    classDef decision fill:#fcf3cf,stroke:#f39c12,stroke-width:2px
+    
+    class C_Group,D_Group group
+    class B,F decision
+```

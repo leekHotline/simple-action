@@ -8,6 +8,7 @@ from exa_py import Exa
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 
+
 # 工具定义 工具绑定 思考行动观察
 # 让模型知道能调用什么工具  让模型输出结构化的调用指令 思考需要是否需要调用工具调用什么工具 执行工具 观察反馈结果
 load_dotenv()
